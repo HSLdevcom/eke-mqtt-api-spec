@@ -27,7 +27,7 @@ Port is `8883` but must be configurable.
 
 This is usually defined in the arguments for `connect()` or equivalent of the MQTT client library.
 
-### User Name and Password
+### Username and password
 
 No username or password is required.
 
