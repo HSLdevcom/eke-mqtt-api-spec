@@ -167,10 +167,10 @@ Copy 1:1 the binary content of the UDP packets without the UDP header.
 Send the Stadler UDP messages only from the active cabin.
 If neither cabin is active, send from cabin A.
 
-#### Logic for EKE JKV status
+### Logic for EKE JKV status
 
 Copy 1:1 the binary content of the JKV status packet.
 
-#### Logic for EKE JKV events
+### Logic for EKE JKV events
 
 Copy 1:1 the binary content of the JKV event packet.
