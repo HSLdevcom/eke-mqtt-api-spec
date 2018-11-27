@@ -148,7 +148,7 @@ This is usually handled in the `connectionLostCallback()` or equivalent of the M
 
 ## Encoding
 
-Before forwarding over MQTT, each message received by the EKE unit is wrapped into a [Protocol Buffers](https://developers.google.com/protocol-buffers/) message as specified in the schema file `./fi-hsl-eke.proto` in this repository.
+Before forwarding over MQTT, each message received by the EKE unit is wrapped into a [Protocol Buffers](https://developers.google.com/protocol-buffers/) message as specified in the schema file `./fi_hsl_eke.proto` in this repository.
 
 Use the schema to generate stubs for the messages.
 
@@ -158,7 +158,7 @@ Use the schema to generate stubs for the messages.
 There are two data sources, Stadler UDP and EKE JKV.
 
 The messages the EKE unit receives are not modified except for wrapping them with metadata.
-The metadata is specified in the Protocol Buffers schema file `./fi-hsl-eke.proto`.
+The metadata is specified in the Protocol Buffers schema file `./fi_hsl_eke.proto`.
 
 ### Logic for Stadler UDP
 
