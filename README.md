@@ -67,14 +67,7 @@ This is usually defined in the arguments for `publish()` or equivalent of the MQ
 
 ### Client Identifier
 
-Use `eke-<trainType>-<trainUnit>-<cabin>-<randomSuffix>`, e.g. `eke-sm5-25-A-kxHqzY6yb`.
-
-The random suffix prevents denial of service attacks aimed at EKE MQTT connections.
-
-Switch the random suffix on every reconnection.
-
-`<randomSuffix>` may have characters in the range `[0-9A-Za-z]` and must have a configurable length.
-Let's start with 9 characters.
+Use `eke-<trainType>-<trainUnit>-<cabin>`, e.g. `eke-sm5-25-A`.
 
 This is usually defined in the arguments for `connect()` or equivalent of the MQTT client library.
 
