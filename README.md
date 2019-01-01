@@ -178,6 +178,7 @@ Use the schema to generate stubs for the messages.
 ## Data content
 
 There are two data sources, Stadler UDP and EKE JKV.
+EKE JKV produces two types of messages, status and event messages.
 
 The messages the EKE unit receives are not modified except for wrapping them with metadata.
 The metadata is specified in the Protocol Buffers schema file `./fi_hsl_eke.proto`.
