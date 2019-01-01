@@ -109,7 +109,8 @@ When connecting or reconnecting, first send a UTF-8 message `connected at <conne
 `<connectedTime>` should be created as early as possible when the MQTT (re)connection succeeds.
 It must contain an ISO 8601 timestamp with a fixed precision, for example nanosecond precision, and with UTC time zone denoted with `Z`, e.g. `20180518T082928.123456789Z`.
 
-**FIXME:** Select and document the precision here instead of specifying with "for example". Nanosecond precision matches the precision of the Protocol Buffers Timestamp.
+**FIXME:** Select and document the precision here instead of specifying with "for example".
+Nanosecond precision matches the precision of the Protocol Buffers Timestamp.
 
 This message should be sent as a retained message with QoS 2, too.
 
