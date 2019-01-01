@@ -92,7 +92,7 @@ This is usually defined in the arguments for `connect()` or equivalent of the MQ
 
 ### Last Will scheme
 
-**FIXME:** Do last wills work with MQTT bridge forwarding?
+**FIXME:** Test that last wills are forwarded by an MQTT bridge like any other message.
 
 Use a connection status topic:
 ```
