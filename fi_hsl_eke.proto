@@ -20,6 +20,17 @@ message EkeMessage {
    */
   bytes captured_data = 2;
 
+  enum CapturedType {
+    STADLER_UDP = 0;
+    EKE_JKV_STATUS = 1;
+    EKE_JKV_EVENT = 2;
+  }
+
+  /*
+   * Which type of a message was captured?
+   */
+  CapturedType captured_type = 3;
+
   /*
    * The earliest time when the data message in captured_data was fully
    * received by EKE.
@@ -43,5 +54,5 @@ message EkeMessage {
    * writing, it can be found here:
    * https://github.com/protocolbuffers/protobuf/blob/0894e07536af88065d462cdc9d8e807c0723ef4d/src/google/protobuf/timestamp.proto
    */
-  google.protobuf.Timestamp capture_time = 3;
+  google.protobuf.Timestamp capture_time = 4;
 }
