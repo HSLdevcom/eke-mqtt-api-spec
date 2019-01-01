@@ -107,26 +107,55 @@ These are usually defined in the arguments for `connect()` or equivalent of the 
 
 When connecting or reconnecting, first send a UTF-8 message `connected at <connectedTime>` to the connection status topic.
 `<connectedTime>` should be created as early as possible when the MQTT (re)connection succeeds.
-It must contain an ISO 8601 timestamp with microsecond accuracy and with UTC time zone denoted with `Z`, e.g. `20180518T082928.123456Z`.
+It must contain an ISO 8601 timestamp with a fixed precision, for example nanosecond precision, and with UTC time zone denoted with `Z`, e.g. `20180518T082928.123456789Z`.
+
+**FIXME:** Select and document the precision here instead of specifying with "for example". Nanosecond precision matches the precision of the Protocol Buffers Timestamp.
 
 This message should be sent as a retained message with QoS 2, too.
 
 This is usually handled in the `connectionSucceededCallback()` or equivalent of the MQTT client library.
 
-**FIXME:** Consider reusing the Protocol Buffers v3 schema here with empty forwarded message.
-
 ### Buffering
 
-In case of lost connections to the MQTT broker, all data is retained in a ringbuffer for `k` days.
+In case of lost connections to the MQTT broker, all data is retained in a deque or ringbuffer for `k` days.
 Another data structure may be used instead as long as the oldest messages are thrown away first if the size limit is reached.
 
-Persist on disk. MQTT client libraries will not usually do this for you but will offer the necessary callbacks.
+Persist on disk.
+MQTT client libraries will not usually do this but will offer the necessary callbacks.
 
-The ringbuffer size/length needs to be parameterized.
+The deque size/length needs to be parameterized.
+The hardware is expected to have at least 256 MiB of storage space, though the deque might need some extra storage space for sending the oldest messages in spotty network conditions where `PUBACK`s from the broker are not received.
 
-**FIXME:** What are the capabilities of the hardware?
+The locally persisted messages should be removed only after receiving the corresponding `PUBACK` from the broker.
 
-**FIXME:** MQTT in-flight limit is around 65k. Not all MQTT client libraries can handle trying to send over 65k messages before `ACK`s start clearing the sending queue. Handle this in client.
+Note: The maximum number of MQTT messages in-flight is 65534 as the MQTT packet identifier for QoS > 0 lies on the closed interval [1, 65534].
+Even though they should, not all MQTT client libraries can internally handle their users trying to publish over 65k messages before the `PUBACK`s start clearing the sending queue.
+If the MQTT client library cannot handle this, then a semaphore of size 65534 solves the issue.
+
+The idea fleshed out a bit:
+```
+Capturing and encoding   Storage in durable deque on disk   Publishing   Semaphore of size 2**16 - 1   MQTT client library
+
+...
+
+|                        |                                  |            |                             |
+|                        |                                  |            |   PUBACK callback           |
+|                        |                                  |<-----------------------------------------|
+|                        |   remove the oldest              |            |                             |
+|                        |<---------------------------------|            |                             |
+|                        |                                  |   release  |                             |
+|                        |                                  |----------->|                             |
+|                        |                                  |            |                             |
+|----------------------->|                                  |            |                             |
+|                        |   peek at the oldest             |            |                             |
+|                        |--------------------------------->|            |                             |
+|                        |                                  |   acquire  |                             |
+|                        |                                  |----------->|                             |
+|                        |                                  |            |   publish                   |
+|                        |                                  |----------------------------------------->|
+
+...
+```
 
 ### Reconnections
 
