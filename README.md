@@ -17,11 +17,9 @@ That will retain the message order in the data stream if we ignore the effect of
 
 [MQTT Version 3.1.1 Plus Errata 01](https://docs.oasis-open.org/mqtt/mqtt/v3.1.1/errata01/os/mqtt-v3.1.1-errata01-os-complete.html)
 
-**FIXME:** Consider MQTT 5.0 if relevant closer to implementation. Trustworthy client libraries, our bridge and possibly our broker needs to be able to handle 5.0 before using it. "MQTT v5.0 is not backward compatible (like v3.1.1)" says https://blog.codecentric.de/en/2017/11/hello-mqtt-version-5-0/ .
-
 ### Broker
 
-The MQTT Broker can be given either as an IP address or as a domain name. This must be configurable.
+EKE will receive a domain name, the train router requires an IP address. This must be configurable.
 
 Port is `8883` but must be configurable.
 
@@ -92,7 +90,7 @@ This is usually defined in the arguments for `connect()` or equivalent of the MQ
 
 ### Last Will scheme
 
-**FIXME:** Test that last wills are forwarded by an MQTT bridge like any other message.
+**COMMENT:** MQTT bridge will not be implemented.
 
 Use a connection status topic:
 ```
@@ -191,7 +189,7 @@ Copy 1:1 the binary content of the UDP packets without the UDP header.
 Send the Stadler UDP messages only from the active cabin.
 If neither cabin is active, send from cabin A.
 
-**FIXME:** Is it still valid that only the active cabin sends?
+**FIXME:** Is it still valid that only the active cabin sends? ----> Yes, decided.
 
 ### Logic for EKE JKV status
 
